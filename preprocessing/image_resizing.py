@@ -2,6 +2,8 @@ import os
 from PIL import Image
 from PIL.Image import Resampling
 from tqdm import tqdm
+import numpy as np
+from add_blur_rect import apply_gaussian_blur_to_rectangle
 
 
 def resize_images(source_folder, target_folder, size):
@@ -42,7 +44,28 @@ def resize_images(source_folder, target_folder, size):
         cropped_image.save(os.path.join(target_folder, f'{index}.jpg'))
 
 
+def blur_images_and_save_as_npy_array(source_folder, target_folder):
+    """
+    Save all images in source_folder as numpy arrays in target_folder
+    :param source_folder: string, folder containing images to save as numpy arrays
+    :param target_folder: string, folder to save numpy arrays
+    """
+    # Make sure the output folder exists
+    os.makedirs(target_folder, exist_ok=True)
+    for index, filename in enumerate(tqdm(os.listdir(source_folder))):
+        if not filename.endswith(('.jpg', '.jpeg', '.png', '.bmp', '.gif')):
+            continue
+        img = Image.open(os.path.join(source_folder, filename))
+        img = img.convert('RGB')
+        blurred_image = apply_gaussian_blur_to_rectangle(img)
+        img_array = np.array(img)
+        blurred_img_array = np.array(blurred_image)
+        np.save(os.path.join(target_folder, f'{index}.npy'), img_array)
+        np.save(os.path.join(target_folder, f'{index}_blurred.npy'), blurred_img_array)
+
+
 source_folder = '../data/full_res_images'
-target_folder = '../data/256x256_images'
-size = 256
-resize_images(source_folder, target_folder, size)
+target_folder = '../data/128x128_images'
+size = 128
+#resize_images(source_folder, target_folder, size)
+blur_images_and_save_as_npy_array(target_folder, '../data/128x128_images_numpy')

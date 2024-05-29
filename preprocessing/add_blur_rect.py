@@ -2,12 +2,14 @@ import os
 import numpy as np
 from PIL import Image, ImageFilter
 import random
+from tqdm import tqdm
+
 
 def apply_gaussian_blur_to_rectangle(image, radius=15):
     width, height = image.size
     rect_width = random.randint(10, width // 4)
     rect_height = random.randint(10, height // 4)
-    
+
     x1 = random.randint(0, width - rect_width)
     y1 = random.randint(0, height - rect_height)
     x2 = x1 + rect_width
@@ -24,6 +26,7 @@ def apply_gaussian_blur_to_rectangle(image, radius=15):
 
     return image
 
+
 def process_images(input_directory, output_directory, radius=15):
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
@@ -37,8 +40,7 @@ def process_images(input_directory, output_directory, radius=15):
             output_path = os.path.join(output_directory, filename)
             blurred_image.save(output_path)
 
-
 if __name__ == "__main__":
-    input_dir = '/home/gabopey/Documents/RUG/NN/testScript/128x128_images'
-    output_dir = '/home/gabopey/Documents/RUG/NN/testScript/128x128_images_blurred'
+    input_dir = '../data/128x128_images'
+    output_dir = '../data/128x128_images_blurred'
     process_images(input_dir, output_dir)

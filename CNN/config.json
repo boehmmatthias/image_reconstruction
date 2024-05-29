@@ -1,0 +1,14 @@
+{
+  "num_samples": 109156,
+  "train_ratio": 0.8,
+  "val_ratio": 0.1,
+  "test_ratio": 0.1,
+  "in_channels": 3,
+  "out_channels": 3,
+  "data_path": "../data/128x128_images_numpy",
+  "model_path": "models",
+  "results_path": "results",
+  "epochs": 100,
+  "batch_size": 64,
+  "learning_rate": 1e-4
+}
