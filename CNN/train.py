@@ -24,7 +24,7 @@ def prepare_train(config):
         print(f'MPS device is not available. Using {device} instead.')
     model = UNet(config['in_channels'], config['out_channels'])
     model = model.to(device)
-    criterion = nn.CrossEntropyLoss()
+    criterion = nn.MSELoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=config['learning_rate'])
     train(model, criterion, optimizer, dataloaders, device, config)
 
