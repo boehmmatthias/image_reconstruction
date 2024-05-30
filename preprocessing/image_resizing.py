@@ -52,16 +52,18 @@ def blur_images_and_save_as_npy_array(source_folder, target_folder):
     """
     # Make sure the output folder exists
     os.makedirs(target_folder, exist_ok=True)
-    for index, filename in enumerate(tqdm(os.listdir(source_folder))):
+    index = 0
+    for filename in tqdm(os.listdir(source_folder)):
         if not filename.endswith(('.jpg', '.jpeg', '.png', '.bmp', '.gif')):
             continue
         img = Image.open(os.path.join(source_folder, filename))
         img = img.convert('RGB')
-        blurred_image = apply_gaussian_blur_to_rectangle(img)
         img_array = np.array(img)
-        blurred_img_array = np.array(blurred_image)
         np.save(os.path.join(target_folder, f'{index}.npy'), img_array)
+        blurred_image = apply_gaussian_blur_to_rectangle(img)
+        blurred_img_array = np.array(blurred_image)
         np.save(os.path.join(target_folder, f'{index}_blurred.npy'), blurred_img_array)
+        index += 1
 
 
 source_folder = '../data/full_res_images'

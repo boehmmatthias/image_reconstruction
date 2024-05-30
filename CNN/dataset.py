@@ -2,6 +2,7 @@ from torch.utils.data import Dataset
 import torch
 import numpy as np
 import os
+from torchvision import transforms
 
 
 def get_datasets(config):
@@ -27,11 +28,10 @@ class ImageDataset(Dataset):
 
     def __getitem__(self, idx):
         index = self.indices[idx]
-        image = np.load(os.path.join(self.data_folder, f'{index}.npy'))
-        target = np.load(os.path.join(self.data_folder, f'{index}_blurred.npy'))
+        image = np.load(os.path.join(self.data_folder, f'{index}_blurred.npy'))
+        target = np.load(os.path.join(self.data_folder, f'{index}.npy'))
 
-        input_tensor = torch.tensor(image, dtype=torch.float32)
-        input_tensor = input_tensor.permute(2, 0, 1)
-        target_tensor = torch.tensor(target, dtype=torch.float32)
-        target_tensor = target_tensor.permute(2, 0, 1)
+        input_tensor = transforms.ToTensor()(image)
+        target_tensor = transforms.ToTensor()(target)
+
         return input_tensor, target_tensor

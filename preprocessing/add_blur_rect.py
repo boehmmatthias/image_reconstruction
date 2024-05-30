@@ -7,8 +7,8 @@ from tqdm import tqdm
 
 def apply_gaussian_blur_to_rectangle(image, radius=15):
     width, height = image.size
-    rect_width = random.randint(10, width // 4)
-    rect_height = random.randint(10, height // 4)
+    rect_width = random.randint(15, width // 3)
+    rect_height = random.randint(15, height // 3)
 
     x1 = random.randint(0, width - rect_width)
     y1 = random.randint(0, height - rect_height)

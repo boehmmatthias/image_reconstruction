@@ -1,6 +1,8 @@
 # data folder with images
 data/
 
+CNN/results/
+
 .idea/
 
 # Byte-compiled / optimized / DLL files
