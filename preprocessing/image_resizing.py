@@ -4,6 +4,7 @@ from PIL.Image import Resampling
 from tqdm import tqdm
 import numpy as np
 from add_blur_rect import apply_gaussian_blur_to_rectangle
+from torchvision import transforms
 
 
 def resize_images(source_folder, target_folder, size):
@@ -60,9 +61,12 @@ def blur_images_and_save_as_npy_array(source_folder, target_folder):
         img = img.convert('RGB')
         img_array = np.array(img)
         np.save(os.path.join(target_folder, f'{index}.npy'), img_array)
-        blurred_image = apply_gaussian_blur_to_rectangle(img)
+
+        blurred_image, crop_start, crop_end = apply_gaussian_blur_to_rectangle(img)
         blurred_img_array = np.array(blurred_image)
         np.save(os.path.join(target_folder, f'{index}_blurred.npy'), blurred_img_array)
+        np.save(os.path.join(target_folder, f'{index}_crop_start.npy'), np.array(crop_start))
+        np.save(os.path.join(target_folder, f'{index}_crop_end.npy'), np.array(crop_end))
         index += 1
 
 

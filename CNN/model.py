@@ -32,7 +32,7 @@ class UNet(nn.Module):
     def __init__(self, in_channels, out_channels, hidden_dims=None):
         super(UNet, self).__init__()
         if hidden_dims is None:
-            hidden_dims = [32, 64, 128]
+            hidden_dims = [32, 64, 128, 256]
         self.hidden_dims = hidden_dims
         self.in_channels = in_channels
         self.out_channels = out_channels
@@ -74,5 +74,8 @@ class UNet(nn.Module):
             x = torch.cat([x, enc_features[i]], dim=1)
             x = self.decoders[i](x)
 
+        # add smoothing layer
         x = self.conv1x1(x)
+        x = torch.sigmoid(x)
+
         return x

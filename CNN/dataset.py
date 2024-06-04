@@ -30,8 +30,9 @@ class ImageDataset(Dataset):
         index = self.indices[idx]
         image = np.load(os.path.join(self.data_folder, f'{index}_blurred.npy'))
         target = np.load(os.path.join(self.data_folder, f'{index}.npy'))
-
+        crop_start = np.load(os.path.join(self.data_folder, f'{index}_crop_start.npy'))
+        crop_end = np.load(os.path.join(self.data_folder, f'{index}_crop_end.npy'))
         input_tensor = transforms.ToTensor()(image)
         target_tensor = transforms.ToTensor()(target)
 
-        return input_tensor, target_tensor
+        return input_tensor, target_tensor, crop_start, crop_end

@@ -7,8 +7,8 @@ from tqdm import tqdm
 
 def apply_gaussian_blur_to_rectangle(image, radius=15):
     width, height = image.size
-    rect_width = random.randint(15, width // 3)
-    rect_height = random.randint(15, height // 3)
+    rect_width = 20
+    rect_height = 30
 
     x1 = random.randint(0, width - rect_width)
     y1 = random.randint(0, height - rect_height)
@@ -24,7 +24,7 @@ def apply_gaussian_blur_to_rectangle(image, radius=15):
     # Paste the blurred rectangle back to the image
     image.paste(rect, (x1, y1))
 
-    return image
+    return image, (x1, y1), (x2, y2)
 
 
 def process_images(input_directory, output_directory, radius=15):
@@ -36,7 +36,7 @@ def process_images(input_directory, output_directory, radius=15):
             image_path = os.path.join(input_directory, filename)
             image = Image.open(image_path).convert('RGB')
 
-            blurred_image = apply_gaussian_blur_to_rectangle(image, radius)
+            blurred_image, crop_start, crop_size = apply_gaussian_blur_to_rectangle(image, radius)
             output_path = os.path.join(output_directory, filename)
             blurred_image.save(output_path)
 

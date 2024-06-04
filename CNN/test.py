@@ -31,15 +31,15 @@ def test_model(config):
     test_set = ImageDataset(config['data_path'], indices[:test_set_size])
     test_loader = DataLoader(test_set, batch_size=1, shuffle=False)
     counter = 0
-    for x, y in tqdm(test_loader, total=len(test_loader)):
+    for x, y, _, _ in tqdm(test_loader, total=len(test_loader)):
         with torch.no_grad():
             output = model(x.to(device))
             output = output.squeeze(0)
             # convert to image and save
             input_im = transforms.ToPILImage()(x.cpu().squeeze(0))
-            input_im.save(os.path.join(result_path, f'{counter}_input_.png'))
+            input_im.save(os.path.join(result_path, f'{counter}_input.png'))
             output = transforms.ToPILImage()(output.cpu().squeeze(0))
-            output.save(os.path.join(result_path, f'{counter}_result_.png'))
+            output.save(os.path.join(result_path, f'{counter}_result.png'))
             gt_image = transforms.ToPILImage()(y.squeeze(0))
             gt_image.save(os.path.join(result_path, f'{counter}_gt.png'))
 
